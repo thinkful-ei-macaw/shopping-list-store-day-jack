@@ -16,19 +16,19 @@ const generateItemElement = function (item) {
   if(item.isEditing) {
     itemTitle = `
       <form>
-        <input type="text" value="${item.name}" class="js-edit-name">
+        <input type="text" value="${item.name}" class="edit-name js-edit-name">
         <button type="submit" class="js-apply-edit">apply</button>
       </form>
     `;
   } else {
 
-  itemTitle = `<span class='shopping-item shopping-item__checked'>${item.name}</span>`;
-  if (!item.checked) {
-    itemTitle = `
+    itemTitle = `<span class='shopping-item shopping-item__checked'>${item.name}</span>`;
+    if (!item.checked) {
+      itemTitle = `
      <span class='shopping-item'>${item.name}</span>
     `;
+    }
   }
-}
 
   return `
     <li class='js-item-element' data-item-id='${item.id}'>
@@ -171,8 +171,11 @@ const toggleItemEdit = function(item) {
   item.isEditing = !item.isEditing;
 };
 
+const clearDuplicateEdits = () => store.items.map(item => item.isEditing = false);
+
 const handleEditItemClicked = function() {
   $('.js-shopping-list').on('click', '.js-item-edit', event =>{
+    clearDuplicateEdits();
     const id = getItemIdFromElement(event.currentTarget);
     const currentItem = getItemByID(id);
     toggleItemEdit(currentItem);
@@ -183,7 +186,7 @@ const handleEditItemClicked = function() {
 
 const setNewItemName = function(item, newName) {
   item.name = newName;
-}
+};
 
 const handleApplyItemChangeClicked = function(currentItem) {
   $('.js-item-element').submit(event =>{
