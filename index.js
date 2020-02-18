@@ -171,11 +171,11 @@ const toggleItemEdit = function(item) {
   item.isEditing = !item.isEditing;
 };
 
-const clearDuplicateEdits = () => store.items.map(item => item.isEditing = false);
+const clearEdits = () => store.items.map(item => item.isEditing = false);
 
 const handleEditItemClicked = function() {
   $('.js-shopping-list').on('click', '.js-item-edit', event =>{
-    clearDuplicateEdits();
+    clearEdits(); //Enforce editing only one item at a time
     const id = getItemIdFromElement(event.currentTarget);
     const currentItem = getItemByID(id);
     toggleItemEdit(currentItem);
